@@ -1,3 +1,3 @@
-# Hi-Script
+# :wave: Hi-Script
 
 Programming Language primarily for Web Scraping.
