@@ -1,0 +1,2 @@
+build:
+	cd compiler && make
