@@ -3,4 +3,7 @@ hi
 main.hi
 
 # compiler
-compiler/*.c
+compiler/*.o
+compiler/y.tab.c
+compiler/y.tab.h
+compiler/lex.yy.c
