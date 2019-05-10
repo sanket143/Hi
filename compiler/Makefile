@@ -1,19 +1,19 @@
 CC = gcc
 HI_BIN = ../hi
-LYOBJ = lex.yy.o y.tab.o
-YTAB = y.tab.c y.tab.h
+LYOBJ = rules.tab.o lex.yy.o
+YTAB = rules.tab.c rules.tab.h
 
 build: $(LYOBJ)
-	$(CC) -o $(HI_BIN) $(LYOBJ) -lfl
+	gcc -o $(HI_BIN) rules.tab.o lex.yy.o -lfl
 
-$(LYOBJ): lex.yy.c y.tab.c
-	$(CC) -c lex.yy.c y.tab.c -lfl
+$(LYOBJ): lex.yy.c rules.tab.c
+	$(CC) -c lex.yy.c rules.tab.c -lfl
 
-lex.yy.c: $(YTAB) rules.l
-	lex rules.l
+lex.yy.c: tokens.lex
+	flex tokens.lex
 
 $(YTAB): rules.y
-	yacc -d rules.y
+	bison -d rules.y
 
 clean:
-	rm -rf $(LYOBJ) lex.yy.c y.tab.c y.tab.h
+	rm -rf $(LYOBJ) $(YTAB) lex.yy.c
