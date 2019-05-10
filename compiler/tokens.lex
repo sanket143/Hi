@@ -25,6 +25,9 @@ int main(int argc, char **argv){
             perror(argv[1]);
             return 1;
         }
+    } else {
+        fprintf(stderr, "hi: no input file\n");
+        return 1;
     }
 
     yyparse();
