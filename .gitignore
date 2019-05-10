@@ -4,6 +4,6 @@ main.hi
 
 # compiler
 compiler/*.o
-compiler/y.tab.c
-compiler/y.tab.h
+compiler/rules.tab.c
+compiler/rules.tab.h
 compiler/lex.yy.c
