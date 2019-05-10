@@ -7,6 +7,7 @@ int yylex(void);
 
 %token NUMBER
 %token ADD SUB MUL DIV MOD ABS
+%token O_PAREN C_PAREN
 %token PRINT
 %token EOL
 
@@ -14,7 +15,7 @@ int yylex(void);
 
 instructionlist     :
                     | instructionlist exp EOL { }
-                    | instructionlist PRINT exp EOL { printf("%d\n", $3); }
+                    | instructionlist PRINT O_PAREN exp C_PAREN EOL { printf("%d\n", $4); }
                     ;
 
 exp                 : factor            { $$ = $1; }

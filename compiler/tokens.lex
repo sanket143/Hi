@@ -9,6 +9,8 @@
 "*"         { return MUL; }
 "/"         { return DIV; }
 "%"         { return MOD; }
+"("         { return O_PAREN; }
+")"         { return C_PAREN; }
 [0-9]+      { yylval = atoi(yytext); return NUMBER; }
 "\n"        { return EOL; }
 
