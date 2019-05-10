@@ -7,12 +7,14 @@ int yylex(void);
 
 %token NUMBER
 %token ADD SUB MUL DIV MOD ABS
+%token PRINT
 %token EOL
 
 %%
 
 instructionlist     :
-                    | instructionlist exp EOL { printf("= %d\n", $2); }
+                    | instructionlist exp EOL { }
+                    | instructionlist PRINT exp EOL { printf("%d\n", $3); }
                     ;
 
 exp                 : factor            { $$ = $1; }
@@ -28,12 +30,8 @@ factor              : term              { $$ = $1; }
 term                : NUMBER            { $$ = $1; }
                     | ABS term          { $$ = $2 >= 0 ? $2 : - $2; }
                     ;
-%%
 
-int main(int argc, char **argv){
-    yyparse();
-    return 0;
-}
+%%
 
 void yyerror(char *s){
     fprintf(stderr, "error: %s\n", s);
