@@ -15,7 +15,11 @@ extern char *yytext;
 %token EOL
 
 %union {
-    char *str;
+    struct str_params {
+        char *text;
+        int length;
+    };
+    struct str_params str;
     int val;
 }
 
@@ -31,7 +35,7 @@ instructionlist     :
                     | instructionlist exp EOL { }
                     | instructionlist PRINT PAREN_O exp PAREN_C EOL { printf("%d\n", $4); }
                     | instructionlist PRINT PAREN_O STRING PAREN_C EOL {
-                        printf("%d\n", strlen($4));
+                        printf("%.*s\n", ($4).length - 2, ($4).text + 1 );
                     }
                     ;
 

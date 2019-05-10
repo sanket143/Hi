@@ -16,8 +16,8 @@
 "\'"                    { return SINGLE_QUOTE; }
 [0-9]+                  { yylval.val = atoi(yytext); return NUMBER; }
 \"([^\\\"]|\\.)*\"      {
-                            yylval.str = yytext;
-                            printf("%d\n", strlen(yylval.str));
+                            yylval.str.text = yytext;
+                            yylval.str.length = strlen(yytext);
                             return STRING;
                         }
 "\n"                    { return EOL; }
