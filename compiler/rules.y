@@ -1,21 +1,38 @@
 %{
 #include <stdio.h>
+#include <string.h>
 
 void yyerror(char *s);
 int yylex(void);
+extern char *yytext;
 %}
 
-%token NUMBER
+%token NUMBER STRING
 %token ADD SUB MUL DIV MOD ABS
-%token O_PAREN C_PAREN
+%token PAREN_O PAREN_C
+%token DOUBLE_QUOTE SINGLE_QUOTE
 %token PRINT
 %token EOL
+
+%union {
+    char *str;
+    int val;
+}
+
+%type <str> STRING
+%type <val> NUMBER
+%type <val> exp
+%type <val> term
+%type <val> factor
 
 %%
 
 instructionlist     :
                     | instructionlist exp EOL { }
-                    | instructionlist PRINT O_PAREN exp C_PAREN EOL { printf("%d\n", $4); }
+                    | instructionlist PRINT PAREN_O exp PAREN_C EOL { printf("%d\n", $4); }
+                    | instructionlist PRINT PAREN_O STRING PAREN_C EOL {
+                        printf("%d\n", strlen($4));
+                    }
                     ;
 
 exp                 : factor            { $$ = $1; }
