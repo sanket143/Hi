@@ -2,8 +2,14 @@
 
 Programming Language primarily for Web Scraping.
 
-## Installation instruction
+## Installation
 ```sh
 $ make
 $ sudo make install
+```
+
+## Hello World
+```sh
+$ hi examples/hello.hi
+Hello World
 ```
