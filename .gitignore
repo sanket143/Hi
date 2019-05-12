@@ -7,3 +7,4 @@ parser/*.o
 parser/rules.tab.c
 parser/rules.tab.h
 parser/lex.yy.c
+parser/parser.a
