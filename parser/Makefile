@@ -1,10 +1,10 @@
 CC = gcc
 TARGET = parser.a
-LYOBJ = rules.tab.o elx.yy.o
+LYOBJ = rules.tab.o lex.yy.o
 YACC_R = rules.tab.h rules.tab.c
 
 $(TARGET): $(LYOBJ) 
-	ar rvs $@ rules.tab.o lex.yy.o
+	ar rvs $@ $(LYOBJ)
 
 $(LYOBJ): $(YACC_R) lex.yy.c
 	$(CC) -c lex.yy.c rules.tab.c -lfl

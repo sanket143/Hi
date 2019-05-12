@@ -2,8 +2,8 @@
 hi
 main.hi
 
-# compiler
-compiler/*.o
-compiler/rules.tab.c
-compiler/rules.tab.h
-compiler/lex.yy.c
+# parser
+parser/*.o
+parser/rules.tab.c
+parser/rules.tab.h
+parser/lex.yy.c
