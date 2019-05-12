@@ -1,19 +1,9 @@
-CC = gcc
 HI_BIN = ../hi
-LYOBJ = rules.tab.o lex.yy.o
-YTAB = rules.tab.c rules.tab.h
+PARSER_A = ../parser/parser.a
+CC = g++ -std=c++11 -Wall -Wextra
 
-build: $(LYOBJ)
-	gcc -o $(HI_BIN) rules.tab.o lex.yy.o -lfl
-
-$(LYOBJ): lex.yy.c rules.tab.c
-	$(CC) -c lex.yy.c rules.tab.c -lfl
-
-lex.yy.c: tokens.lex
-	flex tokens.lex
-
-$(YTAB): rules.y
-	bison -d rules.y
+build: $(PARSER_A) 
+	$(CC) main.cpp $(PARSER_A) -o $(HI_BIN)
 
 clean:
-	rm -rf $(LYOBJ) $(YTAB) lex.yy.c
+	rm -rf $(HI_BIN) 
