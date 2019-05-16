@@ -3,8 +3,8 @@ hi
 main.hi
 
 # parser
-parser/*.o
-parser/rules.tab.c
-parser/rules.tab.h
-parser/lex.yy.c
-parser/parser.a
+compiler/parser/*.o
+compiler/parser/rules.tab.c
+compiler/parser/rules.tab.h
+compiler/parser/lex.yy.c
+compiler/parser/parser.a
