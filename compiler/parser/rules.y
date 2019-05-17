@@ -14,6 +14,7 @@ extern char *yytext;
 %token ADD SUB MUL DIV MOD ABS EQUATE
 %token PAREN_O PAREN_C
 %token DOUBLE_QUOTE SINGLE_QUOTE
+%token SEMICOLON
 %token PRINTLN PRINT VAR
 %token EOL
 
@@ -36,43 +37,42 @@ extern char *yytext;
 %%
 
 instructionlist     :
-                    | instructionlist exp EOL
-                    | instructionlist print EOL
-                    | instructionlist variable EOL
+                    | instructionlist exp
+                    | instructionlist print
+                    | instructionlist variable
                     ;
 
-print               :
-                    | PRINT PAREN_O exp PAREN_C { compiler::printd($3); }
-                    | PRINT PAREN_O STRING PAREN_C {
+print               : PRINT PAREN_O exp PAREN_C SEMICOLON { compiler::printd($3); }
+                    | PRINT PAREN_O STRING PAREN_C SEMICOLON {
                         printf("%.*s", ($3).length - 2, ($3).text + 1 );
                     }
-                    | PRINT PAREN_O NAME PAREN_C {
+                    | PRINT PAREN_O NAME PAREN_C SEMICOLON {
                         char var[($3).length];
                         int n = sprintf(var, "%.*s", ($3).length, ($3).text);
                         compiler::print(var);
                     }
-                    | PRINTLN PAREN_O exp PAREN_C { compiler::printdn($3); }
-                    | PRINTLN PAREN_O STRING PAREN_C {
+                    | PRINTLN PAREN_O exp PAREN_C SEMICOLON { compiler::printdn($3); }
+                    | PRINTLN PAREN_O STRING PAREN_C SEMICOLON {
                         printf("%.*s\n", ($3).length - 2, ($3).text + 1 );
                     }
-                    | PRINTLN PAREN_O NAME PAREN_C {
+                    | PRINTLN PAREN_O NAME PAREN_C SEMICOLON {
                         char var[($3).length];
                         int n = sprintf(var, "%.*s", ($3).length, ($3).text);
                         compiler::println(var);
                     }
                     ;
 
-variable            : NAME EQUATE exp {
+variable            : NAME EQUATE exp SEMICOLON {
                         char var[($1).length];
                         int n = sprintf(var, "%.*s", ($1).length, ($1).text);
                         compiler::addNumVar(var, $3);
                     }
-                    | VAR NAME EQUATE exp {
+                    | VAR NAME EQUATE exp SEMICOLON {
                         char var[($2).length];
                         int n = sprintf(var, "%.*s", ($2).length, ($2).text);
                         compiler::addNumVar(var, $4);
                     }
-                    | NAME EQUATE STRING {
+                    | NAME EQUATE STRING SEMICOLON {
                         char var[($1).length];
                         char value[($3).length - 2];
                         int n;
@@ -81,7 +81,7 @@ variable            : NAME EQUATE exp {
                         n = sprintf(value, "%.*s", ($3).length - 2, ($3).text + 1);
                         compiler::addStringVar(var, value);
                     }
-                    | VAR NAME EQUATE STRING {
+                    | VAR NAME EQUATE STRING SEMICOLON {
                         char var[($2).length];
                         char value[($4).length - 2];
                         int n;

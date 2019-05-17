@@ -18,6 +18,7 @@
 ")"                     { return PAREN_C; }
 "\""                    { return DOUBLE_QUOTE; }
 "\'"                    { return SINGLE_QUOTE; }
+";"                     { return SEMICOLON; }
 
 "print"                 { return PRINT; } 
 "println"               { return PRINTLN; }
@@ -34,9 +35,8 @@
                             yylval.str.length = strlen(yytext);
                             return STRING;
                         }
-
-"\n"                    { return EOL; }
-[ \t]                   { }
+"\n"
+[ \t]
 .                       { printf("Anything\n"); }
 
 %%
