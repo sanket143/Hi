@@ -88,33 +88,29 @@ namespace compiler {
         }
     }
 
-    int getIntValue(char *_varname){
+    double getNumValue(char *_varname){
         std::string temp(_varname);
         variable_list_itr = variable_list.find(temp);
 
         if(variable_list_itr != variable_list.end()){
             if(variable_list_itr->second.getType() == typeInt){
-                return variable_list_itr->second.getInt();
+                return (double) variable_list_itr->second.getInt();
             }
             else if(variable_list_itr->second.getType() == typeString){
-                return 1;
+                return variable_list_itr->second.getString().length();
             }
             else if(variable_list_itr->second.getType() == typeBool){
-                if(variable_list_itr->second.getInt() != 0){
+                if(variable_list_itr->second.getBool()){
                     return 1;
                 }
 
                 return 0;
             }
             else if(variable_list_itr->second.getType() == typeDouble){
-                if(variable_list_itr->second.getDouble()){
-                    return 1;
-                }
-
-                return 0;
+                return variable_list_itr->second.getDouble();
             }
         } else {
-            return -1;
+            return 0;
         }
     }
 

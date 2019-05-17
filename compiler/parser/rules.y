@@ -31,6 +31,7 @@ extern char *yytext;
 %type <dval> NUMBER
 %type <dval> exp
 %type <dval> factor
+%type <dval> term
 
 %%
 
@@ -96,16 +97,23 @@ exp                 : factor            { $$ = $1; }
                     | exp SUB factor    { $$ = $1 - $3; }
                     ;
 
-factor              : NUMBER            { $$ = $1; }
-                    | factor MUL NUMBER { $$ = $1 * $3; }
-                    | factor DIV NUMBER {
+factor              : term              { $$ = $1; }
+                    | factor MUL term   { $$ = $1 * $3; }
+                    | factor DIV term   {
                         if($3){
                             $$ = $1 / $3;
                         } else {
-                            printf("Division by 0.")
+                            printf("Division by 0.");
                         }
                     }
                     ;
+
+term                : NUMBER
+                    | NAME {
+                        char var[($1).length];
+                        int n = sprintf(var, "%.*s", ($1).length, ($1).text);
+                        $$ = compiler::getNumValue(var);
+                    }
 
 %%
 
