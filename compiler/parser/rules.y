@@ -97,8 +97,14 @@ exp                 : factor            { $$ = $1; }
                     ;
 
 factor              : NUMBER            { $$ = $1; }
-                    | factor MUL factor { $$ = $1 * $3; }
-                    | factor DIV factor { $$ = $1 / $3; }
+                    | factor MUL NUMBER { $$ = $1 * $3; }
+                    | factor DIV NUMBER {
+                        if($3){
+                            $$ = $1 / $3;
+                        } else {
+                            printf("Division by 0.")
+                        }
+                    }
                     ;
 
 %%
