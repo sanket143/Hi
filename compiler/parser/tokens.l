@@ -13,20 +13,29 @@
 "*"                     { return MUL; }
 "/"                     { return DIV; }
 "%"                     { return MOD; }
+"="                     { return EQUATE; }
 "("                     { return PAREN_O; }
 ")"                     { return PAREN_C; }
 "\""                    { return DOUBLE_QUOTE; }
 "\'"                    { return SINGLE_QUOTE; }
-[0-9]+                  { yylval.val = atoi(yytext); return NUMBER; }
+
+"print"                 { return PRINT; } 
+"println"               { return PRINTLN; }
+"var"                   { return VAR; }
+
+[0-9]+                  { yylval.dval = atof(yytext); return NUMBER; }
+[A-Za-z]+               {
+                            yylval.str.text = yytext;
+                            yylval.str.length = strlen(yytext);
+                            return NAME;
+                        }
 \"([^\\\"]|\\.)*\"      {
                             yylval.str.text = yytext;
                             yylval.str.length = strlen(yytext);
                             return STRING;
                         }
+
 "\n"                    { return EOL; }
-
-"print"                 { return PRINT; } 
-
 [ \t]                   { }
 .                       { printf("Anything\n"); }
 

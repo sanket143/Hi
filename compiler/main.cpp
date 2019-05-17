@@ -1,11 +1,11 @@
 #include <iostream>
 
 extern "C" {
-    int yyparse();
     int yylex();
     void yyerror(const char *);
 }
 
+extern int yyparse();
 extern FILE *yyin;
 
 int main(int argc, char **argv){

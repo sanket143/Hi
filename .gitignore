@@ -2,9 +2,14 @@
 hi
 main.hi
 
-# parser
+# compiler 
 compiler/parser/*.o
 compiler/parser/rules.tab.c
 compiler/parser/rules.tab.h
 compiler/parser/lex.yy.c
 compiler/parser/parser.a
+compiler/include/*.o
+compiler/include/header.a
+
+# Editor
+.vscode
