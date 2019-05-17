@@ -31,7 +31,6 @@ extern char *yytext;
 %type <dval> NUMBER
 %type <dval> exp
 %type <dval> factor
-%type <str> variable
 
 %%
 
@@ -62,11 +61,24 @@ print               :
                     }
                     ;
 
-variable            :
+variable            : NAME EQUATE exp {
+                        char var[($1).length];
+                        int n = sprintf(var, "%.*s", ($1).length, ($1).text);
+                        compiler::addNumVar(var, $3);
+                    }
                     | VAR NAME EQUATE exp {
                         char var[($2).length];
                         int n = sprintf(var, "%.*s", ($2).length, ($2).text);
                         compiler::addNumVar(var, $4);
+                    }
+                    | NAME EQUATE STRING {
+                        char var[($1).length];
+                        char value[($3).length - 2];
+                        int n;
+
+                        n = sprintf(var, "%.*s", ($1).length, ($1).text);
+                        n = sprintf(value, "%.*s", ($3).length - 2, ($3).text + 1);
+                        compiler::addStringVar(var, value);
                     }
                     | VAR NAME EQUATE STRING {
                         char var[($2).length];
@@ -85,8 +97,8 @@ exp                 : factor            { $$ = $1; }
                     ;
 
 factor              : NUMBER            { $$ = $1; }
-                    | factor MUL NUMBER { $$ = $1 * $3; }
-                    | factor DIV NUMBER { $$ = $1 / $3; }
+                    | factor MUL factor { $$ = $1 * $3; }
+                    | factor DIV factor { $$ = $1 / $3; }
                     ;
 
 %%

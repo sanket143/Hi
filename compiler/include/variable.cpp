@@ -54,12 +54,23 @@ namespace compiler {
     void addNumVar(char *_varname, double _value){
         std::string temp(_varname);
         int intVal = (int) _value;
-        if(intVal - _value){
-            Var var(_value);
-            variable_list.insert(std::pair<std::string, Var>(temp, var));
+
+        variable_list_itr = variable_list.find(temp);
+
+        if(variable_list_itr == variable_list.end()){
+            if(intVal - _value){
+                Var var(_value);
+                variable_list.insert(std::pair<std::string, Var>(temp, var));
+            } else {
+                Var var(intVal);
+                variable_list.insert(std::pair<std::string, Var>(temp, var));
+            }
         } else {
-            Var var(intVal);
-            variable_list.insert(std::pair<std::string, Var>(temp, var));
+            if(intVal - _value){
+                variable_list_itr->second.setDouble(_value);
+            } else {
+                variable_list_itr->second.setInt(intVal);
+            }
         }
     }
 
@@ -67,8 +78,14 @@ namespace compiler {
         std::string temp(_varname);
         std::string temp_value(_value);
 
-        Var var(temp_value);
-        variable_list.insert(std::pair<std::string, Var>(temp, var));
+        variable_list_itr = variable_list.find(temp);
+
+        if(variable_list_itr == variable_list.end()){
+            Var var(temp_value);
+            variable_list.insert(std::pair<std::string, Var>(temp, var));
+        } else {
+            variable_list_itr->second.setString(_value);
+        }
     }
 
     int getIntValue(char *_varname){
