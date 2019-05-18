@@ -1,3 +1,12 @@
+<p align="center">
+    <img
+      alt="Hi Logo"
+      src="https://github.com/sanket143/Hi/blob/master/logo.png"
+      width="300"
+    /><br>
+    <span style="font-size: 40px"><b>A new way to say "Hello World"</b></span>
+</p>
+
 # :wave: Hi-Script
 
 Programming Language primarily for Web Scraping.
