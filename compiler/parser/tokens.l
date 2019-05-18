@@ -16,8 +16,6 @@
 "="                     { return EQUATE; }
 "("                     { return PAREN_O; }
 ")"                     { return PAREN_C; }
-"\""                    { return DOUBLE_QUOTE; }
-"\'"                    { return SINGLE_QUOTE; }
 ";"                     { return SEMICOLON; }
 
 "print"                 { return PRINT; } 
