@@ -16,7 +16,6 @@ extern char *yytext;
 %token DOUBLE_QUOTE SINGLE_QUOTE
 %token SEMICOLON
 %token PRINTLN PRINT VAR
-%token EOL
 
 %union {
     struct str_params {
@@ -98,12 +97,26 @@ exp                 : factor            { $$ = $1; }
                     ;
 
 factor              : term              { $$ = $1; }
+                    | factor MOD term   {
+                        if($3){
+                            if($1 - (int)$1 || $3 - (int)$3){
+                                fprintf(stderr, "Error: Decimals in '%' Operation\n");
+                                exit(1);
+                            } else {
+                                $$ = (int)$1 % (int)$3;
+                            }
+                        } else {
+                            fprintf(stderr, "Error: Division by 0\n");
+                            exit(1);
+                        }
+                    }
                     | factor MUL term   { $$ = $1 * $3; }
                     | factor DIV term   {
                         if($3){
                             $$ = $1 / $3;
                         } else {
-                            printf("Division by 0.");
+                            fprintf(stderr, "Error: Division by 0\n");
+                            exit(1);
                         }
                     }
                     ;

@@ -23,6 +23,7 @@
 "var"                   { return VAR; }
 
 [0-9]+                  { yylval.dval = atof(yytext); return NUMBER; }
+[0-9]+.[0-9]+           { yylval.dval = atof(yytext); return NUMBER; }
 [A-Za-z]+               {
                             yylval.str.text = yytext;
                             yylval.str.length = strlen(yytext);
