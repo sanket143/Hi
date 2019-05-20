@@ -127,6 +127,8 @@ term                : NUMBER
                         int n = sprintf(var, "%.*s", ($1).length, ($1).text);
                         $$ = compiler::getNumValue(var);
                     }
+                    | PAREN_O exp PAREN_C { $$ = $2; }
+                    ;
 
 %%
 
