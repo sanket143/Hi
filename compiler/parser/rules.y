@@ -51,25 +51,25 @@ print               : PRINT PAREN_O exp PAREN_C SEMICOLON { compiler::printd($3)
                     | PRINT PAREN_O STRING PAREN_C SEMICOLON {
                         printf("%.*s", ($3).length - 2, ($3).text + 1 );
                     }
+                    | PRINT PAREN_O boolexp PAREN_C SEMICOLON {
+                        printf("%s", $3 ? "true" : "false");
+                    }
                     | PRINT PAREN_O NAME PAREN_C SEMICOLON {
                         char var[($3).length];
                         int n = sprintf(var, "%.*s", ($3).length, ($3).text);
                         compiler::print(var);
                     }
-                    | PRINT PAREN_O boolexp PAREN_C SEMICOLON {
-                        printf("%s", $3 ? "true" : "false");
-                    }
                     | PRINTLN PAREN_O exp PAREN_C SEMICOLON { compiler::printdn($3); }
                     | PRINTLN PAREN_O STRING PAREN_C SEMICOLON {
                         printf("%.*s\n", ($3).length - 2, ($3).text + 1 );
+                    }
+                    | PRINTLN PAREN_O boolexp PAREN_C SEMICOLON {
+                        printf("%s\n", $3 ? "true" : "false");
                     }
                     | PRINTLN PAREN_O NAME PAREN_C SEMICOLON {
                         char var[($3).length];
                         int n = sprintf(var, "%.*s", ($3).length, ($3).text);
                         compiler::println(var);
-                    }
-                    | PRINTLN PAREN_O boolexp PAREN_C SEMICOLON {
-                        printf("%s\n", $3 ? "true" : "false");
                     }
                     ;
 
@@ -117,14 +117,14 @@ variable            : NAME EQUATE exp SEMICOLON {
                         n = sprintf(value, "%.*s", ($4).length - 2, ($4).text + 1);
                         compiler::addStringVar(var, value);
                     }
-                    | NAME EQUATE boolexp {
+                    | NAME EQUATE boolexp SEMICOLON {
                         char var[($1).length];
                         int n;
 
                         n = sprintf(var, "%.*s", ($1).length, ($1).text);
                         compiler::addBoolVar(var, $3);
                     }
-                    | VAR NAME EQUATE boolexp {
+                    | VAR NAME EQUATE boolexp SEMICOLON {
                         char var[($2).length];
                         int n;
 
