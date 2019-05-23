@@ -7,6 +7,7 @@
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Travis](https://img.shields.io/travis/sanket143/hi/master.svg?label=Travis%20CI)](https://travis-ci.org/sanket143/Hi)
 
 Hi is a domain-specific programming language that provides rich interaction with the website
 designed specifically to scrap the internet.
