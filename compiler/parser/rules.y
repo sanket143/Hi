@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "variable.hpp"
-#include "print.hpp"
+#include "base.hpp"
 
 void yyerror(char *s);
 int yylex(void);
@@ -12,10 +11,12 @@ extern char *yytext;
 
 %token NUMBER STRING NAME
 %token ADD SUB MUL DIV MOD ABS EQUATE
+%token CLT CGT CEQ CLEQ CGEQ CNEQ CSEQ
 %token PAREN_O PAREN_C
 %token DOUBLE_QUOTE SINGLE_QUOTE
 %token SEMICOLON
 %token PRINTLN PRINT VAR
+%token TRUE FALSE
 
 %union {
     struct str_params {
@@ -24,14 +25,17 @@ extern char *yytext;
     };
     struct str_params str;
     double dval;
+    bool bval;
+    int ival;
 }
 
-%type <str> STRING
-%type <str> NAME
+%type <str> STRING NAME
 %type <dval> NUMBER
-%type <dval> exp
-%type <dval> factor
-%type <dval> term
+%type <ival> CLT CGT CEQ CLEQ CGEQ CNEQ CSEQ
+
+%type <bval> boolexp
+%type <ival> comparator
+%type <dval> exp factor term
 
 %%
 
@@ -39,11 +43,15 @@ instructionlist     :
                     | instructionlist exp
                     | instructionlist print
                     | instructionlist variable
+                    | instructionlist boolexp
                     ;
 
 print               : PRINT PAREN_O exp PAREN_C SEMICOLON { compiler::printd($3); }
                     | PRINT PAREN_O STRING PAREN_C SEMICOLON {
                         printf("%.*s", ($3).length - 2, ($3).text + 1 );
+                    }
+                    | PRINT PAREN_O boolexp PAREN_C SEMICOLON {
+                        printf("%s", $3 ? "true" : "false");
                     }
                     | PRINT PAREN_O NAME PAREN_C SEMICOLON {
                         char var[($3).length];
@@ -54,11 +62,33 @@ print               : PRINT PAREN_O exp PAREN_C SEMICOLON { compiler::printd($3)
                     | PRINTLN PAREN_O STRING PAREN_C SEMICOLON {
                         printf("%.*s\n", ($3).length - 2, ($3).text + 1 );
                     }
+                    | PRINTLN PAREN_O boolexp PAREN_C SEMICOLON {
+                        printf("%s\n", $3 ? "true" : "false");
+                    }
                     | PRINTLN PAREN_O NAME PAREN_C SEMICOLON {
                         char var[($3).length];
                         int n = sprintf(var, "%.*s", ($3).length, ($3).text);
                         compiler::println(var);
                     }
+                    | PRINTLN PAREN_O PAREN_C SEMICOLON {
+                        printf("\n");
+                    }
+                    ;
+
+boolexp             : exp comparator exp {
+                        $$ = compiler::numComparator($1, $2, $3);
+                    }
+                    | TRUE { $$ = true; }
+                    | FALSE { $$ = false; }
+                    ;
+
+comparator          : CLT
+                    | CGT
+                    | CEQ
+                    | CLEQ
+                    | CGEQ
+                    | CNEQ
+                    | CSEQ
                     ;
 
 variable            : NAME EQUATE exp SEMICOLON {
@@ -88,6 +118,20 @@ variable            : NAME EQUATE exp SEMICOLON {
                         n = sprintf(var, "%.*s", ($2).length, ($2).text);
                         n = sprintf(value, "%.*s", ($4).length - 2, ($4).text + 1);
                         compiler::addStringVar(var, value);
+                    }
+                    | NAME EQUATE boolexp SEMICOLON {
+                        char var[($1).length];
+                        int n;
+
+                        n = sprintf(var, "%.*s", ($1).length, ($1).text);
+                        compiler::addBoolVar(var, $3);
+                    }
+                    | VAR NAME EQUATE boolexp SEMICOLON {
+                        char var[($2).length];
+                        int n;
+
+                        n = sprintf(var, "%.*s", ($2).length, ($2).text);
+                        compiler::addBoolVar(var, $4);
                     }
                     ;
 
@@ -128,6 +172,9 @@ term                : NUMBER
                         $$ = compiler::getNumValue(var);
                     }
                     | PAREN_O exp PAREN_C { $$ = $2; }
+                    | boolexp {
+                        $$ = $1;
+                    }
                     ;
 
 %%

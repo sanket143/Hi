@@ -27,6 +27,16 @@ namespace compiler {
         datatype = typeString;
     }
 
+    // Print function
+    /*
+        Member of Var that prints the value of Var
+        itself.
+        Called by 'print' and 'println' function
+        to print the value of the variable
+
+        cout: because it doesn't print the trailing
+        zeros in double
+    */
     void Var::print(){
         if(datatype == typeInt){
             std::cout << v_int;
@@ -48,9 +58,19 @@ namespace compiler {
         }
     }
 
+    // variable_list
+    /* stores all variables used in the program */
+    /*
+    variable_list itr later used
+    by each function that stores value 
+    as a variable to check whether variable
+    exists or not and modify it
+    */
     std::map<std::string, Var> variable_list;
     std::map<std::string, Var>::iterator variable_list_itr;
 
+    // addNumVar
+    /* takes double value to store as a variable */
     void addNumVar(char *_varname, double _value){
         std::string temp(_varname);
         int intVal = (int) _value;
@@ -74,6 +94,8 @@ namespace compiler {
         }
     }
 
+    // addStringVar
+    /* takes string value to store as a variable */
     void addStringVar(char *_varname, std::string _value){
         std::string temp(_varname);
         std::string temp_value(_value);
@@ -85,6 +107,21 @@ namespace compiler {
             variable_list.insert(std::pair<std::string, Var>(temp, var));
         } else {
             variable_list_itr->second.setString(_value);
+        }
+    }
+
+    // addBoolVar
+    /* takes bool value to store as a variable */
+    void addBoolVar(char *_varname, bool _value){
+        std::string temp(_varname);
+
+        variable_list_itr = variable_list.find(temp);
+
+        if(variable_list_itr == variable_list.end()){
+            Var var(_value);
+            variable_list.insert(std::pair<std::string, Var>(temp, var));
+        } else {
+            variable_list_itr->second.setBool(_value);
         }
     }
 

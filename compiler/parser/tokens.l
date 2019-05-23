@@ -18,6 +18,16 @@
 ")"                     { return PAREN_C; }
 ";"                     { return SEMICOLON; }
 
+"<"                     { yylval.ival = 1; return CLT; }
+">"                     { yylval.ival = 2; return CGT; }
+"=="                    { yylval.ival = 3; return CEQ; }
+"<="                    { yylval.ival = 4; return CLEQ; }
+">="                    { yylval.ival = 5; return CLEQ; }
+"!="                    { yylval.ival = 6; return CNEQ; }
+"==="                   { yylval.ival = 7; return CSEQ; }
+
+"true"                  { return TRUE; }
+"false"                 { return FALSE; }
 "print"                 { return PRINT; } 
 "println"               { return PRINTLN; }
 "var"                   { return VAR; }
@@ -39,4 +49,3 @@
 .                       { printf("Anything\n"); }
 
 %%
-

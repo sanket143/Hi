@@ -95,6 +95,7 @@ namespace compiler {
 
     void addNumVar(char *, double);
     void addStringVar(char *, std::string);
+    void addBoolVar(char *, bool);
 
     double getNumValue(char *);
     char* getStringValue(char *);
