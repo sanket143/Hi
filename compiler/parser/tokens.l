@@ -17,7 +17,10 @@
 "("                     { return PAREN_O; }
 ")"                     { return PAREN_C; }
 ";"                     { return SEMICOLON; }
+"<"                     { yylval.ival = 1; return CLT; }
 
+"true"                  { return TRUE; }
+"false"                 { return FALSE; }
 "print"                 { return PRINT; } 
 "println"               { return PRINTLN; }
 "var"                   { return VAR; }
@@ -39,4 +42,3 @@
 .                       { printf("Anything\n"); }
 
 %%
-
