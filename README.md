@@ -4,12 +4,14 @@
       src="https://github.com/sanket143/Hi/blob/master/logo.png"
       width="300"
     /><br>
-    <span style="font-size: 40px"><b>A new way to say "Hello World"</b></span>
 </p>
 
-# :wave: Hi-Script
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Programming Language primarily for Web Scraping.
+Hi is a domain-specific programming language that provides rich interaction with the website
+designed specifically to scrap the internet.
+
+:construction: Under Construction
 
 ## Installation
 ```sh
