@@ -29,14 +29,13 @@ extern char *yytext;
     int ival;
 }
 
-%type <str> STRING
-%type <str> NAME
+%type <str> STRING NAME
 %type <dval> NUMBER
-%type <dval> exp
-%type <dval> factor
-%type <dval> term
+%type <ival> CLT CGT CEQ CLEQ CGEQ CNEQ CSEQ
+
 %type <bval> boolexp
 %type <ival> comparator
+%type <dval> exp factor term
 
 %%
 
@@ -70,6 +69,9 @@ print               : PRINT PAREN_O exp PAREN_C SEMICOLON { compiler::printd($3)
                         char var[($3).length];
                         int n = sprintf(var, "%.*s", ($3).length, ($3).text);
                         compiler::println(var);
+                    }
+                    | PRINTLN PAREN_O PAREN_C SEMICOLON {
+                        printf("\n");
                     }
                     ;
 
