@@ -11,7 +11,7 @@
 Hi is a domain-specific programming language that provides rich interaction with the website
 designed specifically to scrap the internet.
 
-:construction: Under Construction
+:construction: Under Development
 
 ## Installation
 ```sh
