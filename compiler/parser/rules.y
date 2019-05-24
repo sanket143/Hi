@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "base.hpp"
+#define YYDEBUG 1
 
 void yyerror(char *s);
 int yylex(void);
