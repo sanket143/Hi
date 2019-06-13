@@ -25,5 +25,3 @@ $ sudo make install
 $ hi examples/hello.hi
 Hello World
 ```
-
-see more [examples](https://github.com/sanket143/Hi/tree/master/examples)
