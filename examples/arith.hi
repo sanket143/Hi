@@ -1,7 +1,0 @@
-var a = 1;
-b = 2.5;
-println(a + b);
-println(b - 3);
-println(4 - 4 / 2);
-println(6 - 3 * 2);
-println (8 / 3 * 2);

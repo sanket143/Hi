@@ -1,7 +1,0 @@
-language: cpp
-compiler:
-- g++
-os:
-- linux
-script:
-- make
