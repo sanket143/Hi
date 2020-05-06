@@ -50,6 +50,8 @@ pub fn new_token(ttype: TokenType, literal: String) -> Token {
 
 impl Lexer <'_> {
     pub fn next(&mut self) -> Token {
+        self.skip_whitespace();
+
         match self.ch {
             b'=' => new_token(
               TokenType::ASSIGN,
@@ -80,7 +82,8 @@ impl Lexer <'_> {
               String::from("")),
             _    => {
                 if helpers::is_letter(self.ch) {
-                    return new_token(TokenType::IDENT, self.read_identifier());
+                    let ident = self.read_identifier();
+                    return new_token(helpers::lookup_ident(&ident), ident);
                 }
 
                 return new_token(TokenType::ILLEGAL, self.ch.to_string());
@@ -110,6 +113,19 @@ impl Lexer <'_> {
             }
 
             self.read_char();
+        }
+    }
+
+    pub fn skip_whitespace(&mut self) {
+        loop {
+          if self.ch != b' '
+            && self.ch != b'\t'
+            && self.ch != b'\n'
+            && self.ch != b'\r' {
+              break;
+          }
+
+          self.read_char();
         }
     }
 }

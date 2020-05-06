@@ -8,7 +8,7 @@ pub fn is_letter(ch: u8) -> bool {
       ch == b'_'
 }
 
-pub fn keywords(identifier: &str) -> TokenType {
+pub fn lookup_ident(identifier: &str) -> TokenType {
     match identifier {
         "fn"  => TokenType::FUNCTION,
         "let" => TokenType::LET,
