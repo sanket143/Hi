@@ -14,8 +14,13 @@ pub fn is_digit(ch: u8) -> bool {
 
 pub fn lookup_ident(identifier: &str) -> TokenType {
     match identifier {
-        "fn"  => TokenType::FUNCTION,
-        "let" => TokenType::LET,
-        _     => TokenType::IDENT
+        "fn"     => TokenType::FUNCTION,
+        "let"    => TokenType::LET,
+        "if"     => TokenType::IF,
+        "else"   => TokenType::ELSE,
+        "true"   => TokenType::TRUE,
+        "false"  => TokenType::FALSE,
+        "return" => TokenType::RETURN,
+        _        => TokenType::IDENT
     }
 }

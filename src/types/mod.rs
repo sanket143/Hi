@@ -34,7 +34,12 @@ pub enum TokenType {
 
     // Keywords
     FUNCTION,
-    LET
+    LET,
+    TRUE,
+    FALSE,
+    IF,
+    ELSE,
+    RETURN
 }
 
 pub struct Lexer <'a> {
