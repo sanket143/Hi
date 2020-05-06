@@ -1,5 +1,5 @@
-use hi::lexer;
+use hi::cli;
 
 fn main() {
-    lexer::sanket();
+    cli::start();
 }

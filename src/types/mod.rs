@@ -51,6 +51,7 @@ pub struct Lexer <'a> {
     pub ch: u8
 }
 
+#[derive(Debug)]
 pub struct Token {
     pub ttype: TokenType,
     pub literal: String 
@@ -79,12 +80,8 @@ impl Lexer <'_> {
                   _    => new_token(TokenType::ASSIGN, tok)
                 }
             },
-            b'+' => new_token(
-              TokenType::PLUS,
-              tok),
-            b'-' => new_token(
-              TokenType::MINUS,
-              tok),
+            b'+' => new_token(TokenType::PLUS, tok),
+            b'-' => new_token(TokenType::MINUS, tok),
             b'!' => {
                 match self.peek() {
                   b'=' => {
@@ -94,39 +91,17 @@ impl Lexer <'_> {
                   _    => new_token(TokenType::BANG, tok)
                 }
             },
-            b'/' => new_token(
-              TokenType::SLASH,
-              tok),
-            b'*' => new_token(
-              TokenType::ASTERISK,
-              tok),
-            b'<' => new_token(
-              TokenType::LT,
-              tok),
-            b'>' => new_token(
-              TokenType::GT,
-              tok),
-            b';' => new_token(
-              TokenType::SEMICOLON,
-              tok),
-            b'(' => new_token(
-              TokenType::LPAREN,
-              tok),
-            b')' => new_token(
-              TokenType::RPAREN,
-              tok),
-            b',' => new_token(
-              TokenType::COMMA,
-              tok),
-            b'{' => new_token(
-              TokenType::LBRACE,
-              tok),
-            b'}' => new_token(
-              TokenType::RBRACE,
-              tok),
-            0    => new_token(
-              TokenType::EOF,
-              String::from("")),
+            b'/' => new_token(TokenType::SLASH, tok),
+            b'*' => new_token(TokenType::ASTERISK, tok),
+            b'<' => new_token(TokenType::LT, tok),
+            b'>' => new_token(TokenType::GT, tok),
+            b';' => new_token(TokenType::SEMICOLON, tok),
+            b'(' => new_token(TokenType::LPAREN, tok),
+            b')' => new_token(TokenType::RPAREN, tok),
+            b',' => new_token(TokenType::COMMA, tok),
+            b'{' => new_token(TokenType::LBRACE, tok),
+            b'}' => new_token(TokenType::RBRACE, tok),
+            0    => new_token(TokenType::EOF, String::from("")),
             _    => {
                 if helpers::is_letter(self.ch) {
                     let ident = self.read_identifier();
@@ -138,7 +113,8 @@ impl Lexer <'_> {
 
                 }
 
-                return new_token(TokenType::ILLEGAL, self.ch.to_string());
+                self.read_char();
+                return new_token(TokenType::ILLEGAL, tok);
             }
         };
 
