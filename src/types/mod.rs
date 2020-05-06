@@ -1,5 +1,6 @@
 pub mod helpers;
 
+use std::str;
 use crate::types;
 
 #[derive(Debug)]
@@ -51,32 +52,34 @@ pub fn new_token(ttype: TokenType, literal: String) -> Token {
 impl Lexer <'_> {
     pub fn next(&mut self) -> Token {
         self.skip_whitespace();
+        
+        let tok = str::from_utf8(&[self.ch]).unwrap().to_string();
 
-        match self.ch {
+        let token = match self.ch {
             b'=' => new_token(
               TokenType::ASSIGN,
-              self.ch.to_string()),
+              tok),
             b';' => new_token(
               TokenType::SEMICOLON,
-              self.ch.to_string()),
+              tok),
             b'(' => new_token(
               TokenType::LPAREN,
-              self.ch.to_string()),
+              tok),
             b')' => new_token(
               TokenType::RPAREN,
-              self.ch.to_string()),
+              tok),
             b',' => new_token(
               TokenType::COMMA,
-              self.ch.to_string()),
+              tok),
             b'+' => new_token(
               TokenType::PLUS,
-              self.ch.to_string()),
+              tok),
             b'{' => new_token(
               TokenType::LBRACE,
-              self.ch.to_string()),
+              tok),
             b'}' => new_token(
               TokenType::RBRACE,
-              self.ch.to_string()),
+              tok),
             0    => new_token(
               TokenType::EOF,
               String::from("")),
@@ -84,11 +87,20 @@ impl Lexer <'_> {
                 if helpers::is_letter(self.ch) {
                     let ident = self.read_identifier();
                     return new_token(helpers::lookup_ident(&ident), ident);
+
+                } else if helpers::is_digit(self.ch) {
+                    let number = self.read_number();
+                    return new_token(TokenType::INT, number);
+
                 }
 
                 return new_token(TokenType::ILLEGAL, self.ch.to_string());
             }
-        }
+        };
+
+        self.read_char();
+
+        return token;
     }
 
     pub fn read_char(&mut self) {
@@ -107,6 +119,20 @@ impl Lexer <'_> {
 
         loop {
             if !helpers::is_letter(self.ch) {
+                break std::str::from_utf8(&self.input[position..self.position])
+                  .unwrap()
+                  .to_string();
+            }
+
+            self.read_char();
+        }
+    }
+
+    pub fn read_number(&mut self) -> String {
+        let position = self.position;
+
+        loop {
+            if !helpers::is_digit(self.ch) {
                 break std::str::from_utf8(&self.input[position..self.position])
                   .unwrap()
                   .to_string();

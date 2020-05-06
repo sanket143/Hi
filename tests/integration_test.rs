@@ -40,8 +40,9 @@ let result = add(five, ten);
       (TokenType::PLUS,      "+"),
       (TokenType::IDENT,     "y"),
       (TokenType::SEMICOLON, ";"),
-      (TokenType::RPAREN,    "}"),
+      (TokenType::RBRACE,    "}"),
       (TokenType::SEMICOLON, ";"),
+      (TokenType::LET,       "let"),
       (TokenType::IDENT,     "result"),
       (TokenType::ASSIGN,    "="),
       (TokenType::IDENT,     "add"),
@@ -54,6 +55,7 @@ let result = add(five, ten);
       (TokenType::EOF,       ""),
     ];
 
+    let mut i = 0;
     for test in tests.iter() {
         let tok = lex.next();
         let ttype = format!("{:?}", tok.ttype);
@@ -62,13 +64,15 @@ let result = add(five, ten);
         let test1 = format!("{:?}", test.1);
 
         if ttype != test0 {
-            panic!("tokentype wrong. expected={:?}, got={:?}",
-              test0, ttype);
+            panic!("test #{}: tokentype wrong. expected={:?}, got={:?}",
+              i, test0, ttype);
         }
 
         if literal != test1 {
-            panic!("literal wrong. expected={:?}, got={:?}",
-              test1, literal);
+            panic!("test #{}: literal wrong. expected={:?}, got={:?}",
+              i, test1, literal);
         }
+
+        i += 1;
     }
 }
