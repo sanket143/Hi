@@ -11,6 +11,9 @@ let add = fn(x, y) {
 };
 
 let result = add(five, ten);
+
+!-/*5;
+5 < 10 > 5;
 ";
     let s = String::from(s);
     let mut lex = def::new_lexer(&s);
