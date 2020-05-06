@@ -5,7 +5,7 @@ pub fn new_lexer<'a> (input: &'a String) -> types::Lexer {
     types::Lexer {
         input,
         position: 0,
-        read_position: 0,
-        ch: 0
+        read_position: 1,
+        ch: input[0]
     }
 }

@@ -1,4 +1,5 @@
-enum TokenType {
+#[derive(Debug)]
+pub enum TokenType {
     ILLEGAL,
     EOF,
 
@@ -31,9 +32,14 @@ pub struct Lexer <'a> {
     pub ch: u8
 }
 
+pub struct Token {
+    pub ttype: TokenType,
+    pub literal: u8
+}
+
 impl Lexer <'_> {
-    fn next(&mut self) -> TokenType {
-        let token = match self.ch {
+    pub fn next(&mut self) -> Token {
+        let ttype = match self.ch {
             b'=' => TokenType::ASSIGN,
             b';' => TokenType::SEMICOLON,
             b'(' => TokenType::LPAREN,
@@ -44,6 +50,11 @@ impl Lexer <'_> {
             b'}' => TokenType::RBRACE,
             0    => TokenType::EOF,
             _    => TokenType::ILLEGAL
+        };
+
+        let token = Token {
+            ttype,
+            literal: self.ch
         };
 
         self.read_char();
