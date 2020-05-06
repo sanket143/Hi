@@ -66,6 +66,27 @@ impl Lexer <'_> {
             b'=' => new_token(
               TokenType::ASSIGN,
               tok),
+            b'+' => new_token(
+              TokenType::PLUS,
+              tok),
+            b'-' => new_token(
+              TokenType::MINUS,
+              tok),
+            b'!' => new_token(
+              TokenType::BANG,
+              tok),
+            b'/' => new_token(
+              TokenType::SLASH,
+              tok),
+            b'*' => new_token(
+              TokenType::ASTERISK,
+              tok),
+            b'<' => new_token(
+              TokenType::LT,
+              tok),
+            b'>' => new_token(
+              TokenType::GT,
+              tok),
             b';' => new_token(
               TokenType::SEMICOLON,
               tok),
@@ -77,9 +98,6 @@ impl Lexer <'_> {
               tok),
             b',' => new_token(
               TokenType::COMMA,
-              tok),
-            b'+' => new_token(
-              TokenType::PLUS,
               tok),
             b'{' => new_token(
               TokenType::LBRACE,
