@@ -22,6 +22,8 @@ pub enum TokenType {
 
     LT,
     GT,
+    EQ,
+    NOTEQ,
 
     // Delimiters
     COMMA,
@@ -68,18 +70,30 @@ impl Lexer <'_> {
         let tok = str::from_utf8(&[self.ch]).unwrap().to_string();
 
         let token = match self.ch {
-            b'=' => new_token(
-              TokenType::ASSIGN,
-              tok),
+            b'=' => {
+                match self.peek() {
+                  b'=' => {
+                    self.read_char();
+                    new_token(TokenType::EQ, String::from("=="))
+                  },
+                  _    => new_token(TokenType::ASSIGN, tok)
+                }
+            },
             b'+' => new_token(
               TokenType::PLUS,
               tok),
             b'-' => new_token(
               TokenType::MINUS,
               tok),
-            b'!' => new_token(
-              TokenType::BANG,
-              tok),
+            b'!' => {
+                match self.peek() {
+                  b'=' => {
+                    self.read_char();
+                    new_token(TokenType::NOTEQ, String::from("!="))
+                  },
+                  _    => new_token(TokenType::BANG, tok)
+                }
+            },
             b'/' => new_token(
               TokenType::SLASH,
               tok),
@@ -131,6 +145,10 @@ impl Lexer <'_> {
         self.read_char();
 
         return token;
+    }
+
+    pub fn peek(&mut self) -> u8 {
+        self.input[self.read_position]
     }
 
     pub fn read_char(&mut self) {
