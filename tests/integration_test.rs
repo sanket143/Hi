@@ -55,6 +55,18 @@ let result = add(five, ten);
       (TokenType::IDENT,     "ten"),
       (TokenType::RPAREN,    ")"),
       (TokenType::SEMICOLON, ";"),
+      (TokenType::BANG, "!"),
+      (TokenType::MINUS, "-"),
+      (TokenType::SLASH, "/"),
+      (TokenType::ASTERISK, "*"),
+      (TokenType::INT, "5"),
+      (TokenType::SEMICOLON, ";"),
+      (TokenType::INT, "5"),
+      (TokenType::LT, "<"),
+      (TokenType::INT, "10"),
+      (TokenType::GT, ">"),
+      (TokenType::INT, "5"),
+      (TokenType::SEMICOLON, ";"),
       (TokenType::EOF,       ""),
     ];
 
