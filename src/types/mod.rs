@@ -1,3 +1,7 @@
+pub mod helpers;
+
+use crate::types;
+
 #[derive(Debug)]
 pub enum TokenType {
     ILLEGAL,
@@ -34,32 +38,54 @@ pub struct Lexer <'a> {
 
 pub struct Token {
     pub ttype: TokenType,
-    pub literal: u8
+    pub literal: String 
+}
+
+pub fn new_token(ttype: TokenType, literal: String) -> Token {
+    types::Token {
+        ttype,
+        literal
+    }
 }
 
 impl Lexer <'_> {
     pub fn next(&mut self) -> Token {
-        let ttype = match self.ch {
-            b'=' => TokenType::ASSIGN,
-            b';' => TokenType::SEMICOLON,
-            b'(' => TokenType::LPAREN,
-            b')' => TokenType::RPAREN,
-            b',' => TokenType::COMMA,
-            b'+' => TokenType::PLUS,
-            b'{' => TokenType::LBRACE,
-            b'}' => TokenType::RBRACE,
-            0    => TokenType::EOF,
-            _    => TokenType::ILLEGAL
-        };
+        match self.ch {
+            b'=' => new_token(
+              TokenType::ASSIGN,
+              self.ch.to_string()),
+            b';' => new_token(
+              TokenType::SEMICOLON,
+              self.ch.to_string()),
+            b'(' => new_token(
+              TokenType::LPAREN,
+              self.ch.to_string()),
+            b')' => new_token(
+              TokenType::RPAREN,
+              self.ch.to_string()),
+            b',' => new_token(
+              TokenType::COMMA,
+              self.ch.to_string()),
+            b'+' => new_token(
+              TokenType::PLUS,
+              self.ch.to_string()),
+            b'{' => new_token(
+              TokenType::LBRACE,
+              self.ch.to_string()),
+            b'}' => new_token(
+              TokenType::RBRACE,
+              self.ch.to_string()),
+            0    => new_token(
+              TokenType::EOF,
+              String::from("")),
+            _    => {
+                if helpers::is_letter(self.ch) {
+                    return new_token(TokenType::IDENT, self.read_identifier());
+                }
 
-        let token = Token {
-            ttype,
-            literal: self.ch
-        };
-
-        self.read_char();
-
-        token
+                return new_token(TokenType::ILLEGAL, self.ch.to_string());
+            }
+        }
     }
 
     pub fn read_char(&mut self) {
@@ -71,6 +97,20 @@ impl Lexer <'_> {
 
         self.position = self.read_position;
         self.read_position += 1;
+    }
+
+    pub fn read_identifier(&mut self) -> String {
+        let position = self.position;
+
+        loop {
+            if !helpers::is_letter(self.ch) {
+                break std::str::from_utf8(&self.input[position..self.position])
+                  .unwrap()
+                  .to_string();
+            }
+
+            self.read_char();
+        }
     }
 }
 

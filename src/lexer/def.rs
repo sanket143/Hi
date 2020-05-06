@@ -9,3 +9,4 @@ pub fn new_lexer<'a> (input: &'a String) -> types::Lexer {
         ch: input[0]
     }
 }
+
