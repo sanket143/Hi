@@ -1,4 +1,4 @@
-enum TypeToken {
+enum TokenType {
     ILLEGAL,
     EOF,
 
@@ -32,8 +32,23 @@ pub struct Lexer <'a> {
 }
 
 impl Lexer <'_> {
-    fn next(&self) {
-        println!("{}", self.input.len());
+    fn next(&mut self) -> TokenType {
+        let token = match self.ch {
+            b'=' => TokenType::ASSIGN,
+            b';' => TokenType::SEMICOLON,
+            b'(' => TokenType::LPAREN,
+            b')' => TokenType::RPAREN,
+            b',' => TokenType::COMMA,
+            b'+' => TokenType::PLUS,
+            b'{' => TokenType::LBRACE,
+            b'}' => TokenType::RBRACE,
+            0    => TokenType::EOF,
+            _    => TokenType::ILLEGAL
+        };
+
+        self.read_char();
+
+        token
     }
 
     pub fn read_char(&mut self) {
