@@ -1,4 +1,6 @@
 pub mod def;
+pub mod types;
+pub mod helpers;
 
 pub fn sanket(){
     let s = String::from("abcdefghijklmnopqrstuvwxyz");

@@ -1,4 +1,4 @@
-use crate::types::TokenType;
+use crate::lexer::types::TokenType;
 
 pub fn is_letter(ch: u8) -> bool {
     b'a' <= ch &&

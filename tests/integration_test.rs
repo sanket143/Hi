@@ -1,4 +1,4 @@
-use hi::types::TokenType;
+use hi::lexer::types::TokenType;
 use hi::lexer::def;
 
 #[test]

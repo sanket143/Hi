@@ -1,7 +1,7 @@
 use std::io;
 use std::io::Write;
 
-use crate::types::TokenType;
+use crate::lexer::types::TokenType;
 use crate::lexer::def;
 
 pub fn start() {

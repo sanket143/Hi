@@ -1,7 +1,5 @@
-pub mod helpers;
-
 use std::str;
-use crate::types;
+use crate::lexer::helpers;
 
 #[derive(Debug)]
 pub enum TokenType {
@@ -58,7 +56,7 @@ pub struct Token {
 }
 
 pub fn new_token(ttype: TokenType, literal: String) -> Token {
-    types::Token {
+    Token {
         ttype,
         literal
     }

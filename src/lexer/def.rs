@@ -1,4 +1,4 @@
-use crate::types;
+use crate::lexer::types;
 
 pub fn new_lexer<'a> (input: &'a String) -> types::Lexer {
     let input = input.as_bytes();
